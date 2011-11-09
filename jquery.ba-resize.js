@@ -216,11 +216,7 @@
     
   };
   
-  function loopy() {
-    
-    // Start the polling loop, asynchronously.
-    timeout_id = window[ str_setTimeout ](function(){
-      
+  function loopy() {    
       // Iterate over all elements to which the 'resize' event is bound.
       elems.each(function(){
         var elem = $(this),
@@ -235,12 +231,25 @@
         }
         
       });
-      
-      // Loop.
-      loopy();
-      
-    }, jq_resize[ str_delay ] );
-    
+
+      //request another animationFrame to poll the elements
+      window.requestAnimationFrame(loopy);
   };
+  
+    /**
+     * Provides requestAnimationFrame in a cross browser way.
+     * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+     */
+    if ( !window.requestAnimationFrame ) {
+        window.requestAnimationFrame = ( function() {
+            return window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+                window.setTimeout( callback, jq_resize[ str_delay ] );
+            };
+        })();
+    }
   
 })(jQuery,this);
