@@ -63,6 +63,8 @@
     str_resize = 'resize',
     str_data = str_resize + '-special-event',
     str_delay = 'delay',
+    str_pendingDelay = 'pendingDelay',
+    str_activeDelay = 'activeDelay',
     str_throttle = 'throttleWindow';
   
   // Property: jQuery.resize.delay
@@ -70,7 +72,9 @@
   // The numeric interval (in milliseconds) at which the resize event polling
   // loop executes. Defaults to 250.
   
-  jq_resize[ str_delay ] = 250;
+  jq_resize[ str_pendingDelay ] = 250;
+  jq_resize[ str_activeDelay ] = 20;
+  jq_resize[ str_delay ] = jq_resize[ str_pendingDelay ];
   
   // Property: jQuery.resize.throttleWindow
   // 
@@ -231,7 +235,10 @@
         // If element size has changed since the last time, update the element
         // data store and trigger the 'resize' event.
         if ( width !== data.w || height !== data.h ) {
+          jq_resize[ str_delay ] = jq_resize[ str_activeDelay ];
           elem.trigger( str_resize, [ data.w = width, data.h = height ] );
+        } else {
+          jq_resize[ str_delay ] = jq_resize[ str_pendingDelay ];
         }
         
       });
