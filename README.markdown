@@ -26,10 +26,10 @@ tested with, what browsers it has been tested in, and where the unit tests
 reside (so you can test it yourself).
 
 ### jQuery Versions ###
-1.3.2, 1.4.1, 1.4.2
+1.3.2, 1.4.1, 1.4.2, 1.7.1
 
 ### Browsers Tested ###
-Internet Explorer 6-8, Firefox 2-3.6, Safari 3-4, Chrome, Opera 9.6-10.1.
+Internet Explorer 6-8, Firefox 2-10, Safari 3-4, Chrome, Opera 9.6-10.1.
 
 ### Unit Tests ###
 [http://benalman.com/code/projects/jquery-resize/unit/](http://benalman.com/code/projects/jquery-resize/unit/)
