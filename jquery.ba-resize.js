@@ -49,9 +49,9 @@
 (function($,window,undefined){
   '$:nomunge'; // Used by YUI compressor.
   
-  // A jQuery object containing all non-window elements to which the resize
+  // Array containing all non-window elements to which the resize
   // event is bound.
-  var elems = $([]),
+  var elems = [],
     
     // Extend $.resize if it already exists, otherwise create it.
     jq_resize = $.resize = $.extend( $.resize, {} ),
@@ -139,10 +139,10 @@
       var elem = $(this);
       
       // Add this element to the list of internal elements to monitor.
-      elems = elems.add( elem );
+      elems.push( this );
       
       // Initialize data store on the element.
-      $.data( this, str_data, { w: elem.width(), h: elem.height() } );
+      elem.data( str_data, { w: elem.width(), h: elem.height() } );
       
       // If this is the first element added, start the polling loop.
       if ( elems.length === 1 ) {
@@ -161,7 +161,12 @@
       var elem = $(this);
       
       // Remove this element from the list of internal elements to monitor.
-      elems = elems.not( elem );
+      for (var i = elems.length - 1; i >= 0; i--) {
+          if(elems[i] == this){
+            elems.splice(i, 1);
+            break;
+          }
+      };
       
       // Remove any data stored on the element.
       elem.removeData( str_data );
@@ -190,7 +195,7 @@
       
       function new_handler( e, w, h ) {
         var elem = $(this),
-          data = $.data( this, str_data );
+          data = elem.data( str_data );
         
         // If called from the polling loop, w and h will be passed in as
         // arguments. If called manually, via .trigger( 'resize' ) or .resize(),
@@ -222,19 +227,18 @@
     timeout_id = window[ str_setTimeout ](function(){
       
       // Iterate over all elements to which the 'resize' event is bound.
-      elems.each(function(){
-        var elem = $(this),
+      for (var i = elems.length - 1; i >= 0; i--) {
+        var elem = $(elems[i]),
           width = elem.width(),
           height = elem.height(),
-          data = $.data( this, str_data );
+          data = elem.data( str_data );
         
         // If element size has changed since the last time, update the element
         // data store and trigger the 'resize' event.
         if ( width !== data.w || height !== data.h ) {
           elem.trigger( str_resize, [ data.w = width, data.h = height ] );
         }
-        
-      });
+      };
       
       // Loop.
       loopy();
