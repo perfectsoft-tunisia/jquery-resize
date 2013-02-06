@@ -228,15 +228,18 @@
       
       // Iterate over all elements to which the 'resize' event is bound.
       for (var i = elems.length - 1; i >= 0; i--) {
-        var elem = $(elems[i]),
-          width = elem.width(),
-          height = elem.height(),
-          data = elem.data( str_data );
-        
-        // If element size has changed since the last time, update the element
-        // data store and trigger the 'resize' event.
-        if ( width !== data.w || height !== data.h ) {
-          elem.trigger( str_resize, [ data.w = width, data.h = height ] );
+        var elem = $(elems[i]);
+        if (elem[0] == window || elem.is(':visible')) {
+
+          var width = elem.width(),
+              height = elem.height(),
+              data = elem.data( str_data );
+          
+          // If element size has changed since the last time, update the element
+          // data store and trigger the 'resize' event.
+          if ( width !== data.w || height !== data.h ) {
+            elem.trigger( str_resize, [ data.w = width, data.h = height ] );
+          }
         }
       };
       
