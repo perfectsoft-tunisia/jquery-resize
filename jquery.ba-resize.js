@@ -241,6 +241,12 @@
             elem.trigger( str_resize, [ data.w = width, data.h = height ] );
           }
         }
+        else {
+          // resetting stored width and height so that resize event is triggered next time 
+          data = elem.data(str_data);
+          data.w = 0;
+          data.h = 0;
+        }
       };
       
       // Loop.
