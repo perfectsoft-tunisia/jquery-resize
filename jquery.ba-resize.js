@@ -244,7 +244,7 @@
           
           // If element size has changed since the last time, update the element
           // data store and trigger the 'resize' event.
-          if ( width !== data.w || height !== data.h ) {
+        if ( data && ( width !== data.w || height !== data.h ) ) {
           jq_resize[ str_delay ] = jq_resize[ str_activeDelay ];
             elem.trigger( str_resize, [ data.w = width, data.h = height ] );
         } else {
