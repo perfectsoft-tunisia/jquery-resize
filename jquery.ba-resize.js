@@ -181,7 +181,7 @@
       
       // If this is the last element removed, stop the polling loop.
       if ( !elems.length ) {
-        cancelAnimationFrame( timeout_id );
+        _cancelAnimationFrame( timeout_id );
         
         //set the timeout_id to null, to make sure the loop is stopped
         timeout_id = null;
@@ -259,38 +259,30 @@
         }
       };
 
-      //request another animationFrame to poll the elements
-      if(timeout_id !== null)
-         timeout_id = window.requestAnimationFrame(loopy);
+     var _requestAnimationFrame = (function(){
+		  return window.requestAnimationFrame ||
+			  window.webkitRequestAnimationFrame ||
+			  window.mozRequestAnimationFrame    ||
+			  window.oRequestAnimationFrame      ||
+			  window.msRequestAnimationFrame     ||
+			  function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+				  return window.setTimeout( callback, jq_resize[ str_delay ] );
+			  };
+	  })();
+
+	  var _cancelAnimationFrame = ( function() {
+		  return window.cancelAnimationFrame ||
+			  window.webkitCancelRequestAnimationFrame ||
+			  window.mozCancelRequestAnimationFrame    ||
+			  window.oCancelRequestAnimationFrame      ||
+			  window.msCancelRequestAnimationFrame     ||
+			  clearTimeout
+	  })();
+
+	  //request another animationFrame to poll the elements
+	  if(timeout_id !== null)
+		  timeout_id = _requestAnimationFrame(loopy);
+
   };
-  
-    /**
-     * Provides requestAnimationFrame in a cross browser way.
-     * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-     */
-    if ( !window.requestAnimationFrame ) {
-        window.requestAnimationFrame = (function(){
-            return window.webkitRequestAnimationFrame || 
-            window.mozRequestAnimationFrame    || 
-            window.oRequestAnimationFrame      || 
-            window.msRequestAnimationFrame     || 
-            function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
-                return window.setTimeout( callback, jq_resize[ str_delay ] );
-            };
-        })();
-    }
-    /**
-     * Provides cancelAnimationFrame in a cross browser way.
-     */
-    if( !window.cancelAnimationFrame ){
-        window.cancelAnimationFrame = ( function() {
-            return window.webkitCancelRequestAnimationFrame ||
-            window.mozCancelRequestAnimationFrame    ||
-            window.oCancelRequestAnimationFrame      ||
-            window.msCancelRequestAnimationFrame     ||
-            clearTimeout
-        })();
-    }
-    
   
 })(jQuery,this);
