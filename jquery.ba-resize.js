@@ -51,7 +51,7 @@
   
   // A jQuery object containing all non-window elements to which the resize
   // event is bound.
-  var elems = $([]),
+  var elems = [],
     
     // Extend $.resize if it already exists, otherwise create it.
     jq_resize = $.resize = $.extend( $.resize, {} ),
@@ -139,7 +139,7 @@
       var elem = $(this);
       
       // Add this element to the list of internal elements to monitor.
-      elems = elems.add( elem );
+      elems.push( elem[0] );
       
       // Initialize data store on the element.
       $.data( this, str_data, { w: elem.width(), h: elem.height() } );
@@ -161,7 +161,7 @@
       var elem = $(this);
       
       // Remove this element from the list of internal elements to monitor.
-      elems = elems.not( elem );
+      elems = $(elems).not( elem ).toArray();
       
       // Remove any data stored on the element.
       elem.removeData( str_data );
@@ -222,7 +222,7 @@
     timeout_id = window[ str_setTimeout ](function(){
       
       // Iterate over all elements to which the 'resize' event is bound.
-      elems.each(function(){
+      $(elems).each(function(){
         var elem = $(this),
           width = elem.width(),
           height = elem.height(),
