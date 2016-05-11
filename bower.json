@@ -1,0 +1,15 @@
+{
+  "name": "jquery-resize",
+  "homepage": "https://github.com/beshanoe/jquery-resize",
+  "description": "",
+  "main": "jquery.ba-resize.js",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

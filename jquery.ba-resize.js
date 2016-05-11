@@ -143,7 +143,7 @@
       var elem = $(this);
       
       // Add this element to the list of internal elements to monitor.
-      elems.push( this );
+      elems.push( elem[0] );
       
       // Initialize data store on the element.
       elem.data( str_data, { w: elem.width(), h: elem.height() } );
@@ -169,12 +169,7 @@
       var elem = $(this);
       
       // Remove this element from the list of internal elements to monitor.
-      for (var i = elems.length - 1; i >= 0; i--) {
-          if(elems[i] == this){
-            elems.splice(i, 1);
-            break;
-          }
-      };
+      elems = $(elems).not( elem ).toArray();
       
       // Remove any data stored on the element.
       elem.removeData( str_data );
@@ -234,8 +229,8 @@
   
   function loopy() {    
       // Iterate over all elements to which the 'resize' event is bound.
-      for (var i = elems.length - 1; i >= 0; i--) {
-        var elem = $(elems[i]);
+      $(elems).each(function(){
+        var elem = $(this);
         if (elem[0] == window || elem.is(':visible')) {
 
           var width = elem.width(),
@@ -257,7 +252,7 @@
           data.w = 0;
           data.h = 0;
         }
-      };
+      });
 
      var _requestAnimationFrame = (function(){
 		  return window.requestAnimationFrame ||
@@ -285,4 +280,4 @@
 
   };
   
-})(jQuery,this);
+})(jQuery,window);
