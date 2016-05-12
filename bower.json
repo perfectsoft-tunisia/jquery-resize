@@ -1,5 +1,6 @@
 {
   "name": "jquery-resize",
+  "version":"1.2",
   "homepage": "https://github.com/beshanoe/jquery-resize",
   "description": "",
   "main": "jquery.ba-resize.js",

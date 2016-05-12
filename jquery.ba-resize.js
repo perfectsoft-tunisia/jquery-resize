@@ -1,5 +1,5 @@
 /*!
- * jQuery resize event - v1.1 - 3/14/2010
+ * jQuery resize event - v1.2 - 12/05/2016
  * http://benalman.com/projects/jquery-resize-plugin/
  * 
  * Copyright (c) 2010 "Cowboy" Ben Alman
@@ -9,7 +9,7 @@
 
 // Script: jQuery resize event
 //
-// *Version: 1.1, Last updated: 3/14/2010*
+// *Version: 1.2, Last updated: 12/05/2016*
 // 
 // Project Home - http://benalman.com/projects/jquery-resize-plugin/
 // GitHub       - http://github.com/cowboy/jquery-resize/
@@ -254,30 +254,28 @@
         }
       });
 
-     var _requestAnimationFrame = (function(){
-		  return window.requestAnimationFrame ||
-			  window.webkitRequestAnimationFrame ||
-			  window.mozRequestAnimationFrame    ||
-			  window.oRequestAnimationFrame      ||
-			  window.msRequestAnimationFrame     ||
-			  function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
-				  return window.setTimeout( callback, jq_resize[ str_delay ] );
-			  };
-	  })();
-
-	  var _cancelAnimationFrame = ( function() {
-		  return window.cancelAnimationFrame ||
-			  window.webkitCancelRequestAnimationFrame ||
-			  window.mozCancelRequestAnimationFrame    ||
-			  window.oCancelRequestAnimationFrame      ||
-			  window.msCancelRequestAnimationFrame     ||
-			  clearTimeout
-	  })();
-
 	  //request another animationFrame to poll the elements
 	  if(timeout_id !== null)
 		  timeout_id = _requestAnimationFrame(loopy);
 
   };
-  
+  var _requestAnimationFrame = (function(){
+          return window.requestAnimationFrame ||
+              window.webkitRequestAnimationFrame ||
+              window.mozRequestAnimationFrame    ||
+              window.oRequestAnimationFrame      ||
+              window.msRequestAnimationFrame     ||
+              function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+                  return window.setTimeout( callback, jq_resize[ str_delay ] );
+              };
+  })();
+
+  var _cancelAnimationFrame = ( function() {
+          return window.cancelAnimationFrame ||
+              window.webkitCancelRequestAnimationFrame ||
+              window.mozCancelRequestAnimationFrame    ||
+              window.oCancelRequestAnimationFrame      ||
+              window.msCancelRequestAnimationFrame     ||
+              clearTimeout
+  })();
 })(jQuery,window);
